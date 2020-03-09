@@ -1,4 +1,4 @@
-package com.hardcore.accounting.model;
+package com.hardcore.accounting.model.service;
 
 public class Greeting {
     private final Long id;
