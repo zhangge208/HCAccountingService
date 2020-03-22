@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotNull;
+
 @RestController
 @RequestMapping("v1.0/users")
 @Slf4j
@@ -35,13 +37,15 @@ public class UserController {
      * @return user info response entity.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<UserInfo> getUserInfoByUserId(@PathVariable("id") Long userId) {
+    public ResponseEntity<UserInfo> getUserInfoByUserId(@PathVariable("id") @NotNull Long userId) {
         log.debug("Get user info by user id {}", userId);
-        if (userId == null || userId <= 0L) {
+        if (userId <= 0L) {
             throw new InvalidParameterException(String.format("The user id %s is invalid", userId));
         }
         val userInfo = userInfoManager.getUserInfoByUserId(userId);
-        return ResponseEntity.ok(userInfoC2SConverter.convert(userInfo));
+        val userInfoToReturn = userInfoC2SConverter.convert(userInfo);
+        assert userInfoToReturn != null;
+        return ResponseEntity.ok(userInfoToReturn);
 
     }
 }

@@ -2,7 +2,7 @@ package com.hardcore.accounting.controller;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.hardcore.accounting.converter.c2s.UserInfoC2SConverter;
 import com.hardcore.accounting.exception.GlobalExceptionHandler;
-import com.hardcore.accounting.exception.ResourceNotFoundException;
 import com.hardcore.accounting.manager.UserInfoManager;
 import com.hardcore.accounting.model.common.UserInfo;
 import lombok.val;
@@ -89,14 +88,13 @@ public class UserControllerTest {
     public void testGetUserInfoByUserIdWithInvalidUserId() throws Exception {
         // Arrange
         val userId = -100L;
-        doThrow(new ResourceNotFoundException(String.format("User %s was not found", userId)))
-            .when(userInfoManager)
-            .getUserInfoByUserId(anyLong());
 
         // Act && Assert
         mockMvc.perform(get("/v1.0/users/" + userId))
                .andExpect(status().is4xxClientError())
                .andExpect(content().contentType("application/json"))
                .andExpect(content().string("{\"code\":\"INVALID_PARAMETER\",\"errorType\":\"Client\",\"message\":\"The user id -100 is invalid\",\"statusCode\":400}"));
+
+        verify(userInfoManager, never()).getUserInfoByUserId(anyLong());
     }
 }
