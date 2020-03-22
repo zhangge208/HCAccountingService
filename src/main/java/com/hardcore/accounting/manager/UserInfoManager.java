@@ -8,4 +8,8 @@ public interface UserInfoManager {
      * @param userId the specific user id.
      */
     UserInfo getUserInfoByUserId(Long userId);
+
+    void login(String username, String password);
+
+    void register(String username, String password);
 }
