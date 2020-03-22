@@ -2,7 +2,7 @@ package com.hardcore.accounting.dao;
 
 import com.hardcore.accounting.model.persistence.UserInfo;
 
-public interface UserInfoDAO {
+public interface UserInfoDao {
 
     UserInfo getUserInfoById(Long id);
 

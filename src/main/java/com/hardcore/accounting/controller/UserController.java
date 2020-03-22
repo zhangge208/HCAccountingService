@@ -1,16 +1,13 @@
 package com.hardcore.accounting.controller;
 
 import com.hardcore.accounting.converter.c2s.UserInfoC2SConverter;
-import com.hardcore.accounting.exception.ErrorResponse;
 import com.hardcore.accounting.exception.InvalidParameterException;
-import com.hardcore.accounting.exception.ResourceNotFoundException;
-import com.hardcore.accounting.exception.ServiceException;
 import com.hardcore.accounting.manager.UserInfoManager;
 import com.hardcore.accounting.model.service.UserInfo;
+
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +29,11 @@ public class UserController {
         this.userInfoC2SConverter = userInfoC2SConverter;
     }
 
+    /**
+     * Get user information by specific user id.
+     * @param userId the user id
+     * @return user info response entity.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<UserInfo> getUserInfoByUserId(@PathVariable("id") Long userId) {
         log.debug("Get user info by user id {}", userId);

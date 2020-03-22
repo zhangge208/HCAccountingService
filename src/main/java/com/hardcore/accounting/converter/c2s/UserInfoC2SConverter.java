@@ -1,7 +1,8 @@
 package com.hardcore.accounting.converter.c2s;
 
-import com.google.common.base.Converter;
 import com.hardcore.accounting.model.common.UserInfo;
+
+import com.google.common.base.Converter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 

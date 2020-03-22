@@ -14,13 +14,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class UserInfoDAOTest {
+public class UserInfoDaoTest {
 
     @Mock
     private UserInfoMapper userInfoMapper;
 
     @InjectMocks
-    private UserInfoDAOImpl userInfoDAO;
+    private UserInfoDaoImpl userInfoDAO;
 
     @Test
     public void testGetUserInfoById() {

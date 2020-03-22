@@ -8,7 +8,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import java.time.LocalDate;
 import com.hardcore.accounting.converter.p2c.UserInfoP2CConverter;
-import com.hardcore.accounting.dao.UserInfoDAO;
+import com.hardcore.accounting.dao.UserInfoDao;
 import com.hardcore.accounting.exception.ResourceNotFoundException;
 import com.hardcore.accounting.model.persistence.UserInfo;
 import lombok.val;
@@ -22,7 +22,7 @@ class UserInfoManagerTest {
     private UserInfoManager userInfoManager;
 
     @Mock
-    private UserInfoDAO userInfoDAO;
+    private UserInfoDao userInfoDAO;
 
     @BeforeEach
     void setup() {

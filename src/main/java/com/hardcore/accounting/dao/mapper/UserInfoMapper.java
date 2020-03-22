@@ -1,10 +1,10 @@
 package com.hardcore.accounting.dao.mapper;
 
 import com.hardcore.accounting.model.persistence.UserInfo;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
 
 @Mapper
 public interface UserInfoMapper {
