@@ -1,4 +1,4 @@
-package com.hardcore.accounting.converter;
+package com.hardcore.accounting.converter.c2s;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import com.hardcore.accounting.converter.c2s.UserInfoC2SConverter;
@@ -29,7 +29,7 @@ public class UserInfoC2SConverterTest {
         assertThat(result).isNotNull()
                           .hasFieldOrPropertyWithValue("id", userId)
                           .hasFieldOrPropertyWithValue("username", username)
-                          .hasFieldOrPropertyWithValue("password", password);
+                          .hasFieldOrPropertyWithValue("password", null);
     }
 
     @Test

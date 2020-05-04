@@ -725,3 +725,31 @@ Body:
 
 
 ## 异常处理
+
+
+## 加密 
+
+- 密码必须要加密生成， 数据库存储加密后的密码
+
+MD5 SHA5
+
+### 基本加密
+password 
+MD5(password) -> s -> database
+SHA(password) -> s -> database
+
+### 加盐加密 Salt
+随机生成一个盐 salt = UUID()
+
+MD5(password + salt) -> database
+
+### 多次迭代加盐加密
+
+Round 1： MD5(password + salt) -> s_1
+
+Round 2:  MD5(s_1 + salt) -> s_2
+
+Round 3:  MD5(s_2 + salt) -> s_3
+.....
+Round N:  MD5(s_n-1 + salt) -> final s -> database
+

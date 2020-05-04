@@ -12,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
@@ -38,7 +38,7 @@ public class UserController {
      * @param userId the user id
      * @return user info response entity.
      */
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}", produces = "application/json", consumes = "application/json")
     public ResponseEntity<UserInfo> getUserInfoByUserId(@PathVariable("id") @NotNull Long userId) {
         log.debug("Get user info by user id {}", userId);
         if (userId <= 0L) {
@@ -50,12 +50,17 @@ public class UserController {
         return ResponseEntity.ok(userInfoToReturn);
 
     }
-    @PostMapping()
-    public String login(@RequestParam("username") String username,
-                        @RequestParam("password") String password) {
 
-        userInfoManager.register(username, password);
-
-        return "success create";
+    /**
+     * Register with username and password.
+     * @param userInfo userInfo
+     * @return The response for register
+     */
+    @PostMapping(produces = "application/json", consumes = "application/json")
+    public ResponseEntity<UserInfo> register(@RequestBody UserInfo userInfo) {
+        val userInfoToReturn = userInfoC2SConverter.convert(
+            userInfoManager.register(userInfo.getUsername(), userInfo.getPassword()));
+        assert userInfoToReturn != null;
+        return ResponseEntity.ok(userInfoToReturn);
     }
 }

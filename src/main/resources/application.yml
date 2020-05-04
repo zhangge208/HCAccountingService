@@ -1,5 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/hardcore_test?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://39.96.239.189:3306/hardcore_test?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
-    password: hardcore
+    password: Zhangge208
+
+logging:
+  level:
+    com.hardcore.accounting: DEBUG

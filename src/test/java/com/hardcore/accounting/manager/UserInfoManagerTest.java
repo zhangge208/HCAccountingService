@@ -1,12 +1,12 @@
 package com.hardcore.accounting.manager;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
-
 import static org.mockito.Mockito.verify;
-import java.time.LocalDate;
+
 import com.hardcore.accounting.converter.p2c.UserInfoP2CConverter;
 import com.hardcore.accounting.dao.UserInfoDao;
 import com.hardcore.accounting.exception.ResourceNotFoundException;
@@ -16,6 +16,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.time.LocalDateTime;
 
 class UserInfoManagerTest {
 
@@ -36,7 +38,7 @@ class UserInfoManagerTest {
         val userId = 1L;
         val username = "hardcore";
         val password = "hardcore";
-        val createTime = LocalDate.now();
+        val createTime = LocalDateTime.now();
 
         val userInfo = UserInfo.builder()
                                .id(userId)
@@ -69,6 +71,34 @@ class UserInfoManagerTest {
         // Act & Assert
         assertThrows(ResourceNotFoundException.class, () -> userInfoManager.getUserInfoByUserId(userId));
         verify(userInfoDAO).getUserInfoById(eq(userId));
+    }
+
+    @Test
+    void testGetUserInfoByUserName() {
+        // Arrange
+        val username = "hardcore";
+        val password = "hardcore";
+        val userId = 1L;
+        val createTime = LocalDateTime.now();
+
+        val userInfo = UserInfo.builder()
+                               .id(userId)
+                               .username(username)
+                               .password(password)
+                               .createTime(createTime)
+                               .build();
+
+        doReturn(userInfo).when(userInfoDAO).getUserInfoByUserName(username);
+
+        // Act
+        val result = userInfoManager.getUserInfoByUserName(username);
+
+        // Assert
+        assertThat(result).isNotNull()
+                          .hasFieldOrPropertyWithValue("id", userId)
+                          .hasFieldOrPropertyWithValue("username", username)
+                          .hasFieldOrPropertyWithValue("password", password);
+        verify(userInfoDAO).getUserInfoByUserName(username);
     }
 
 }

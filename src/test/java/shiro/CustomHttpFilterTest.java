@@ -1,0 +1,5 @@
+package shiro;
+
+class CustomHttpFilterTest {
+
+}

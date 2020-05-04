@@ -20,6 +20,7 @@ public class UserInfoP2CConverter extends Converter<UserInfo, com.hardcore.accou
                                                             .id(userInfo.getId())
                                                             .username(userInfo.getUsername())
                                                             .password(userInfo.getPassword())
+                                                            .salt(userInfo.getSalt())
                                                             .build();
     }
 

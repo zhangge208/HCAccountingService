@@ -1,9 +1,12 @@
-package com.hardcore.accounting.converter;
+package com.hardcore.accounting.converter.p2s;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.time.LocalDate;
+
 import com.hardcore.accounting.converter.p2c.UserInfoP2CConverter;
 import com.hardcore.accounting.model.persistence.UserInfo;
+
+import java.time.LocalDateTime;
+
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +20,7 @@ public class UserInfoP2CConverterTest {
         val userId = 100L;
         val username = "hardcore";
         val password = "hardcore";
-        val createTime = LocalDate.now();
+        val createTime = LocalDateTime.now();
 
         val userInfoInPersistence = UserInfo.builder()
                                             .id(userId)
