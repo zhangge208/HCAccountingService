@@ -8,6 +8,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,6 +17,7 @@ import com.hardcore.accounting.converter.p2c.RecordP2CConverter;
 import com.hardcore.accounting.dao.RecordDao;
 import com.hardcore.accounting.dao.RecordTagMappingDao;
 import com.hardcore.accounting.dao.TagDao;
+import com.hardcore.accounting.exception.InvalidParameterException;
 import com.hardcore.accounting.exception.ResourceNotFoundException;
 import com.hardcore.accounting.model.persistence.Record;
 import com.hardcore.accounting.model.persistence.Tag;
@@ -117,7 +119,48 @@ class RecordManagerTest {
     }
 
     @Test
-    void testUpdateTag() {
+    void testCreateRecordWithInvalidTagId() {
+        // Arrange
+        val recordId = 1L;
+        val tagId = 10L;
+        val userId = 100L;
+        val amount = new BigDecimal("10.23");
+        val tag = Tag.builder()
+                     .id(tagId)
+                     .userId(userId)
+                     .description("playing")
+                     .status(1)
+                     .build();
+
+        val tagList = ImmutableList.of(tag);
+        val record = com.hardcore.accounting.model.common.Record.builder()
+                                                                .id(recordId)
+                                                                .amount(amount)
+                                                                .userId(userId)
+                                                                .note("Playing game")
+                                                                .category("INCOME")
+                                                                .tagList(ImmutableList.of(com.hardcore.accounting.model.common.Tag.builder()
+                                                                                                                                  .id(tagId)
+                                                                                                                                  .userId(userId)
+                                                                                                                                  .status("ENABLE")
+                                                                                                                                  .description("playing")
+                                                                                                                                  .build()))
+                                                                .status("ENABLE")
+                                                                .build();
+
+
+        doReturn(ImmutableList.of()).when(tagDao).getTagListByIds(anyList());
+
+        // Act && Assert
+        assertThrows(InvalidParameterException.class, () -> recordManager.createRecord(record));
+
+        verify(recordDao, never()).insertRecord(any(Record.class));
+        verify(tagDao).getTagListByIds(anyList());
+        verify(recordTagMappingDao, never()).batchInsertRecordTagMapping(eq(tagList), anyLong());
+        verify(recordDao, never()).getRecordByRecordId(recordId);
+    }
+    @Test
+    void testUpdateRecord() {
         // Arrange
         val recordId = 100L;
         val tagId = 10L;
@@ -200,7 +243,7 @@ class RecordManagerTest {
     }
 
     @Test
-    void testGetTagByTagId() {
+    void testGetRecordByRecordId() {
         // Arrange
         val recordId = 1L;
         val tagId = 10L;
@@ -244,7 +287,7 @@ class RecordManagerTest {
     }
 
     @Test
-    void testGetTagByInvalidTagId() {
+    void testGetRecordByInvalidRecordId() {
         // Arrange
         val recordId = 1L;
         doReturn(null).when(recordDao).getRecordByRecordId(recordId);

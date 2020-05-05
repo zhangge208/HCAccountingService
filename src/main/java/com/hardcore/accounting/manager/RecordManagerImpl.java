@@ -45,7 +45,6 @@ public class RecordManagerImpl implements RecordManager {
     @Override
     public Record createRecord(Record record) {
         val newRecord = recordP2CConverter.reverse().convert(record);
-        recordDao.insertRecord(newRecord);
 
         // check tag list are valid
         assert newRecord != null;
@@ -54,6 +53,9 @@ public class RecordManagerImpl implements RecordManager {
                               .map(Tag::getId)
                               .collect(Collectors.toList());
         val tags = tagDao.getTagListByIds(tagIds);
+        if (tags.isEmpty()) {
+            throw new InvalidParameterException(String.format("The tag list %s are not existed.", tagIds));
+        }
         tags.forEach(tag -> {
             if (!tag.getUserId().equals(record.getUserId())) {
                 throw new InvalidParameterException("The tag is not matched for user");
@@ -67,7 +69,7 @@ public class RecordManagerImpl implements RecordManager {
              .build();
              recordTagMappingDao.insertRecordTagMapping(recordTagMapping); // mysql request io each */
         });
-
+        recordDao.insertRecord(newRecord);
         recordTagMappingDao.batchInsertRecordTagMapping(tags, newRecord.getId());
         return getRecordByRecordId(newRecord.getId());
     }
@@ -110,7 +112,7 @@ public class RecordManagerImpl implements RecordManager {
                 });
             //Deleting the existing mappings
             recordTagMappingDao.deleteRecordTagMappingListByRecordId(record.getId());
-
+            // Creating new mappings
             recordTagMappingDao.batchInsertRecordTagMapping(tags, record.getId());
         }
 

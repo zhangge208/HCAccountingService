@@ -18,7 +18,7 @@ import java.util.List;
 @Mapper
 public interface RecordMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    @Insert("INSERT INTO (user_id, amount, note, category, status) "
+    @Insert("INSERT INTO hcas_record(user_id, amount, note, category, status) "
             + "VALUES (#{userId}, #{amount}, #{note}, #{category}, #{status})")
     int insertRecord(Record record);
 

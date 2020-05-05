@@ -3,6 +3,7 @@ package com.hardcore.accounting.dao.mapper;
 import com.hardcore.accounting.model.persistence.RecordTagMapping;
 import com.hardcore.accounting.model.persistence.Tag;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -10,7 +11,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public interface RecordTagMappingMapper {
              "</script>"})
     int batchRecordTagMapping(@Param("recordTagMappings") List<RecordTagMapping> recordTagMappings);
 
-    @Select("SELECT ht.id, ht.description, hrtm.record_id FROM hcas_tag ht "
+    @Select("SELECT ht.id, ht.description, ht.status, ht.user_id, hrtm.record_id FROM hcas_tag ht "
             + "LEFT JOIN hcas_record_tag_mapping hrtm "
             + "ON hrtm.tag_id = ht.id "
             + "WHERE hrtm.record_id = #{recordId};")
@@ -46,6 +46,6 @@ public interface RecordTagMappingMapper {
              })
     List<RecordTagMapping> getRecordTagMappingListByRecordId(@Param("recordId") Long recordId);
 
-    @Update("DELETE FROM hcas_record_tag_mapping WHERE record_id=#{recordId}")
+    @Delete("DELETE FROM hcas_record_tag_mapping WHERE record_id=#{recordId}")
     int deleteRecordTagMappingList(@Param("recordId") Long recordId);
 }
