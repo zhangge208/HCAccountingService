@@ -55,6 +55,13 @@ public class ShiroConfig {
         shiroFilterDefinitionMap.put("/v1.0/tags/**", "anon");
         shiroFilterDefinitionMap.put("/v1.0/records/**", "anon");
         shiroFilterDefinitionMap.put("/v1.0/users/**::POST", "custom");
+
+        //swagger related url.
+        shiroFilterDefinitionMap.put("/swagger-ui.html/**", "anon");
+        shiroFilterDefinitionMap.put("/swagger-resources/**", "anon");
+        shiroFilterDefinitionMap.put("/v2/**", "anon");
+        shiroFilterDefinitionMap.put("/webjars/**", "anon");
+
         shiroFilterDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(shiroFilterDefinitionMap);
