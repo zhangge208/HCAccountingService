@@ -1,0 +1,6 @@
+@startuml
+
+Client -> DB: Update value as 15 where key = 1
+Client -> Cache: Update value as 15 where key = 1
+
+@enduml
