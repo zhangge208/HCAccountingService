@@ -1,7 +1,7 @@
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+Client -> DB: 更新数据库里对应key的值
+Client -> Cache: 删掉对应key的缓存
+Client -> Cache: 根据key查询缓存未命中
+Client -> DB: 根据key查询数据库得到最新值
+Client -> Cache: 将最新值更新到缓存
 @enduml
