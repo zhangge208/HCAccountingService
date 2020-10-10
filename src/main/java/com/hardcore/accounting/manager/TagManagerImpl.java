@@ -6,6 +6,8 @@ import com.hardcore.accounting.exception.InvalidParameterException;
 import com.hardcore.accounting.exception.ResourceNotFoundException;
 import com.hardcore.accounting.model.common.Tag;
 
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.ImmutableList;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -65,5 +67,11 @@ public class TagManagerImpl implements TagManager {
 
         tagDao.updateTag(updatingTag);
         return getTagByTagId(tag.getId());
+    }
+
+    @Override
+    public PageInfo<Tag> getTags(Long userId, int pageNum, int pageSize) {
+        return new PageInfo<>(
+            ImmutableList.copyOf(tagP2CConverter.convertAll(tagDao.getTags(userId, pageNum, pageSize))));
     }
 }

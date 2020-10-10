@@ -52,8 +52,8 @@ public class ShiroConfig {
         filters.put("authc", new CustomFormAuthenticationFilter());
         val shiroFilterDefinitionMap = new LinkedHashMap<String, String>();
         shiroFilterDefinitionMap.put("/v1.0/session", "anon");
-        shiroFilterDefinitionMap.put("/v1.0/tags/**", "anon");
-        shiroFilterDefinitionMap.put("/v1.0/records/**", "anon");
+        shiroFilterDefinitionMap.put("/v1.0/tags/**", "authc");
+        shiroFilterDefinitionMap.put("/v1.0/records/**", "authc");
         shiroFilterDefinitionMap.put("/v1.0/users/**::POST", "custom");
 
         //swagger related url.

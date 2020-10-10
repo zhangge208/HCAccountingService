@@ -14,4 +14,6 @@ public interface TagDao {
     void updateTag(Tag tag);
 
     List<Tag> getTagListByIds(List<Long> ids);
+
+    List<Tag> getTags(Long userId, int pageNum, int pageSize);
 }

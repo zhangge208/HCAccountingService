@@ -35,4 +35,16 @@ public interface RecordMapper {
                        many = @Many(select = "com.hardcore.accounting.dao.mapper."
                                             + "RecordTagMappingMapper.getTagListByRecordId"))})
     Record getRecordByRecordId(@Param("id") Long id);
+
+    @Select("SELECT id, user_id, amount, note, category, status FROM hcas_record ORDER by create_time")
+    @Results({@Result(property = "id", column = "id"),
+              @Result(property = "userId", column = "user_id"),
+              @Result(property = "amount", column = "amount"),
+              @Result(property = "category", column = "category"),
+              @Result(property = "status", column = "status"),
+              @Result(property = "tagList", javaType = List.class, column = "id",
+                      many = @Many(select = "com.hardcore.accounting.dao.mapper."
+                                            + "RecordTagMappingMapper.getTagListByRecordId"))})
+    List<Record> getRecords(@Param("pageNum") int pageNum,
+                            @Param("pageSize") int pageSize);
 }

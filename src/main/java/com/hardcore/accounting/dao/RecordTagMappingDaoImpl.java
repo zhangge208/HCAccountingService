@@ -28,6 +28,8 @@ public class RecordTagMappingDaoImpl implements RecordTagMappingDao {
 
     @Override
     public void batchInsertRecordTagMapping(List<Tag> tags, Long recordId) {
+        //throw new RuntimeException("Throw exception after insertRecord.");
+
         val recordTagMappingList = tags.stream()
                                        .map(tag -> RecordTagMapping.builder()
                                                                    .status(1)

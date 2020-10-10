@@ -1,10 +1,12 @@
 package com.hardcore.accounting.exception;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * HC Accounting Service Exception.
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class ServiceException extends RuntimeException {
     private int statusCode;

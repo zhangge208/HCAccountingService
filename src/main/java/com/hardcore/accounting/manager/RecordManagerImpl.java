@@ -11,6 +11,7 @@ import com.hardcore.accounting.model.persistence.Tag;
 
 import lombok.val;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +44,7 @@ public class RecordManagerImpl implements RecordManager {
     }
 
     @Override
+    @Transactional
     public Record createRecord(Record record) {
         val newRecord = recordP2CConverter.reverse().convert(record);
 

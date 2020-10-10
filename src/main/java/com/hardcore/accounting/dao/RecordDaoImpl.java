@@ -9,6 +9,8 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
@@ -33,5 +35,10 @@ public class RecordDaoImpl implements RecordDao {
         val result = recordMapper.getRecordByRecordId(id);
         log.debug("Record in getRecordByRecordId: {}", result);
         return result;
+    }
+
+    @Override
+    public List<Record> getRecords() {
+        return null;
     }
 }

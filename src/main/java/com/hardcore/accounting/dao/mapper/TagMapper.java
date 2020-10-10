@@ -59,4 +59,18 @@ public interface TagMapper {
              })
     List<Tag> getTagListByIds(@Param("id") List<Long> ids);
 
+    @Select("SELECT id, description, user_id, status, create_time, update_time "
+            + "FROM hcas_tag WHERE user_id = #{userId} ORDER BY id")
+    @Results({
+                 @Result(column = "id", property = "id"),
+                 @Result(column = "description", property = "description"),
+                 @Result(column = "user_id", property = "userId"),
+                 @Result(column = "status", property = "status"),
+                 @Result(column = "create_time", property = "createTime"),
+                 @Result(column = "update_time", property = "updateTime"),
+             })
+    List<Tag> getTags(@Param("userId") Long userId,
+                      @Param("pageNum") int pageNum,
+                      @Param("pageSize") int pageSize);
+
 }

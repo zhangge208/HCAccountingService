@@ -6,13 +6,16 @@ import com.hardcore.accounting.manager.TagManager;
 import com.hardcore.accounting.manager.UserInfoManager;
 import com.hardcore.accounting.model.service.Tag;
 
+import com.github.pagehelper.PageInfo;
 import lombok.val;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -95,5 +98,20 @@ public class TagController {
         val tagInCommon = tagC2SConverter.reverse().convert(tag);
         val resource = tagManager.updateTag(tagInCommon);
         return tagC2SConverter.convert(resource);
+    }
+
+    /**
+     * Get tags with specific page num and size.
+     * @param pageNum page num
+     * @param pageSize page size
+     * @return The tag list
+     */
+
+    @GetMapping(produces = "application/json", consumes = "application/json")
+    public PageInfo<com.hardcore.accounting.model.common.Tag> getTags(@RequestParam("pageNum") int pageNum,
+                                                                         @RequestParam("pageSize") int pageSize) {
+        val username = (String) SecurityUtils.getSubject().getPrincipal();
+        val userInfo = userInfoManager.getUserInfoByUserName(username);
+        return tagManager.getTags(userInfo.getId(), pageNum, pageSize);
     }
 }
