@@ -11,6 +11,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -31,6 +33,7 @@ public class UserInfoManagerImpl implements UserInfoManager {
     }
 
     @Override
+    @Cacheable(value = "userinfo", key = "#userId")
     public UserInfo getUserInfoByUserId(Long userId) {
         return Optional.ofNullable(userInfoDao.getUserInfoById(userId))
                        .map(userInfoP2CConverter::convert)
@@ -59,6 +62,7 @@ public class UserInfoManagerImpl implements UserInfoManager {
     }
 
     @Override
+    @CachePut(value = "userinfo", key = "#result.id")
     public UserInfo register(String username, String password) {
         val userInfo = userInfoDao.getUserInfoByUserName(username);
         if (userInfo != null) {

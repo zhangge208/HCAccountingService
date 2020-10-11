@@ -10,6 +10,8 @@ import com.hardcore.accounting.model.common.Record;
 import com.hardcore.accounting.model.persistence.Tag;
 
 import lombok.val;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,6 +79,7 @@ public class RecordManagerImpl implements RecordManager {
     }
 
     @Override
+    @Cacheable(value = "record", key = "#recordId")
     public Record getRecordByRecordId(Long recordId) {
         return Optional.ofNullable(recordDao.getRecordByRecordId(recordId))
                        .map(recordP2CConverter::convert)
@@ -85,6 +88,8 @@ public class RecordManagerImpl implements RecordManager {
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = "record", key = "#record.id")
     public Record updateRecord(Record record) {
         val updateRecord = recordP2CConverter.reverse().convert(record);
         val existingRecord = Optional.ofNullable(recordDao.getRecordByRecordId(record.getId()))

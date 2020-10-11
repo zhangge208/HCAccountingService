@@ -96,6 +96,12 @@
             <version>1.2.13</version>
         </dependency>
 
+        <!-- spring boot cache support -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
     </dependencies>
 
 
