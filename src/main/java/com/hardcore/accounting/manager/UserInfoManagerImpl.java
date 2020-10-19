@@ -42,6 +42,7 @@ public class UserInfoManagerImpl implements UserInfoManager {
     }
 
     @Override
+    @Cacheable(value = "userinfo_by_name", key = "#username")
     public UserInfo getUserInfoByUserName(String username) {
         val userInfo = Optional.ofNullable(userInfoDao.getUserInfoByUserName(username))
                                .orElseThrow(() -> new ResourceNotFoundException(

@@ -12,6 +12,7 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Component
@@ -71,7 +72,9 @@ public class TagManagerImpl implements TagManager {
 
     @Override
     public PageInfo<Tag> getTags(Long userId, int pageNum, int pageSize) {
-        return new PageInfo<>(
-            ImmutableList.copyOf(tagP2CConverter.convertAll(tagDao.getTags(userId, pageNum, pageSize))));
+        val tagList = new ArrayList<Tag>();
+        tagP2CConverter.convertAll(tagDao.getTags(userId, pageNum, pageSize))
+                       .forEach(tagList::add);
+        return new PageInfo<>(tagList);
     }
 }

@@ -1,10 +1,10 @@
 package com.hardcore.accounting.converter.p2c;
 
 import com.hardcore.accounting.model.persistence.Record;
+import com.hardcore.accounting.model.persistence.Tag;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Converter;
-import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +12,7 @@ import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import javax.validation.constraints.NotNull;
 
 @Component
@@ -33,7 +34,9 @@ public class RecordP2CConverter extends Converter<Record, com.hardcore.accountin
 
     @Override
     protected com.hardcore.accounting.model.common.Record doForward(@NotNull Record record) {
-        val tagList = ImmutableList.copyOf(tagP2CConverter.convertAll(record.getTagList()));
+        val tagList = new ArrayList<com.hardcore.accounting.model.common.Tag>();
+        tagP2CConverter.convertAll(record.getTagList())
+                       .forEach(tagList::add);
 
         return com.hardcore.accounting.model.common.Record.builder()
                                                           .id(record.getId())
@@ -59,7 +62,10 @@ public class RecordP2CConverter extends Converter<Record, com.hardcore.accountin
                                  .build();
 
         if (record.getTagList() != null) {
-            val tagList = ImmutableList.copyOf(tagP2CConverter.reverse().convertAll(record.getTagList()));
+            val tagList = new ArrayList<Tag>();
+            tagP2CConverter.reverse()
+                           .convertAll(record.getTagList())
+                           .forEach(tagList::add);
             recordResult.setTagList(tagList);
         }
 

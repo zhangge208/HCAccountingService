@@ -5,9 +5,7 @@ import com.hardcore.accounting.exception.InvalidParameterException;
 import com.hardcore.accounting.manager.RecordManager;
 import com.hardcore.accounting.manager.UserInfoManager;
 import com.hardcore.accounting.model.service.Record;
-import com.hardcore.accounting.pagination.PaginationQuery;
 
-import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("v1.0/records")
@@ -98,11 +94,5 @@ public class RecordController {
         val recordInCommon = recordC2SConverter.reverse().convert(record);
         val resource = recordManager.updateRecord(recordInCommon);
         return recordC2SConverter.convert(resource);
-    }
-
-    @GetMapping(produces = "application/json", consumes = "application/json")
-    public List<Record> getRecords(PaginationQuery query) {
-        val records = recordManager.getAllRecords();
-        return ImmutableList.copyOf(recordC2SConverter.convertAll(records));
     }
 }
