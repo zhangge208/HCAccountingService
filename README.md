@@ -365,7 +365,7 @@ password: hardcore
 CREATE DATABASE hardcore_test;
 
 USE hardcore_test;
-DROP TABLE IF EXISTS `hcas_user`;
+DROP TABLE IF EXISTS `hcas_userinfo`;
 CREATE TABLE `hcas_userinfo` (
     `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
     `username` varchar(64) NOT NULL COMMENT 'user name',
@@ -376,11 +376,11 @@ CREATE TABLE `hcas_userinfo` (
     UNIQUE KEY `uk_username` (`username`)
 );
 
-INSERT hcas_user value (NULL, 'hardcore_admin', 'hardcore', NOW(), NULL);
+INSERT hcas_userinfo value (NULL, 'hardcore_admin', 'hardcore', NOW(), NULL);
 
-SELECT * from hardcore_test.hcas_user;
+SELECT * from hardcore_test.hcas_userinfo;
 
-UPDATE hcas_user SET password='accounting' where username = 'hardcore_admin';
+UPDATE hcas_userinfo SET password='accounting' where username = 'hardcore_admin';
 
 ```
 
